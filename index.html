@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compte à Rebours - Réveillon de Noël</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #ff6b6b, #ffeaa7, #74b9ff, #55efc4, #d63031);
+            background-size: 400% 400%;
+            animation: vibrantBackground 8s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            text-align: center;
+        }
+
+        @keyframes vibrantBackground {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 50%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e84393;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        #clock, #countdown {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin: 15px 0;
+        }
+
+        #countdown {
+            font-weight: 600;
+            color: #00cec9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Joyeux Noël ! 🎄✨</h1>
+        <div id="clock">Heure actuelle : 00:00:00</div>
+        <div id="countdown">Temps restant : 0j 0h 0m 0s</div>
+    </div>
+
+    <script>
+        // Fonction pour mettre à jour l'heure en temps réel
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('fr-FR');
+            document.getElementById('clock').textContent = `Heure actuelle : ${timeString}`;
+        }
+
+        // Fonction pour le compte à rebours vers minuit du 25 décembre
+        function updateCountdown() {
+            const now = new Date();
+            const christmasEve = new Date(now.getFullYear(), 11, 25, 0, 0, 0); // 25 décembre à minuit
+
+            if (now > christmasEve) {
+                // Si Noël est déjà passé, compte à rebours pour l'année suivante
+                christmasEve.setFullYear(christmasEve.getFullYear() + 1);
+            }
+
+            const diff = christmasEve - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                document.getElementById('countdown').textContent =
+                    `Temps restant : ${days}j ${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                document.getElementById('countdown').textContent = "Joyeux Noël ! 🎅🎁";
+            }
+        }
+
+        // Exécuter les fonctions au chargement de la page
+        document.addEventListener("DOMContentLoaded", () => {
+            updateClock();
+            updateCountdown();
+            setInterval(() => {
+                updateClock();
+                updateCountdown();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
